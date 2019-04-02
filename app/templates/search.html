@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>observ - {{ title }}</title>
+        <link rel="stylesheet" href="/static/search_style.css">
+        <link href="https://fonts.googleapis.com/css?family=Muli:400,600,700" rel="stylesheet"> 
+        <link href="https://fonts.googleapis.com/css?family=Crimson+Text:400,600,700" rel="stylesheet">
+        <meta name="viewport" content="width=device-with, initial-scale=1.0">
+    </head>
+    <body>
+
+    <a href="/index"><h1>&nbsp; obser<span class="blue">v</span></h1></a>
+
+    <nav>
+        <a href="/profile">profil<span class="blue">e</span> &nbsp; &nbsp;</a>  
+        <a href="/help">hel<span class="blue">p</span> &nbsp; &nbsp;</a>  
+        <a href="/signout">sign ou<span class="blue">t</span> &nbsp; &nbsp; &nbsp;</a>
+    </nav>
+
+    <br />
+    <br />
+
+    <div id="laptops">
+            <img src="/static/images/backdrop_laptops.jpg" alt="Two laptops" style="float:left;width:20%;height:20%">
+        </div>
+
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <h3>search databas<span class="blue">e</span></h3>
+    
+    <!-- here needs action="/results.html" when ready-->
+    <form>
+        <span class="form">keyword</span><br />
+        <input type="text" name="keyword"><br />
+        <br />
+        <span class="form">city</span><br />
+        <input type="checkbox" name="city" value="palo alto">Palo Alto<br />
+        <input type="checkbox" name="city" value="los altos">Los Altos<br />
+        <br />
+        <span class="form">document type</span><br />
+        <input type="radio" name="doctype" value="agenda" checked> Agenda<br />
+        <br />
+        <input type="submit" value="Search">
+    </form>
+
+    <div id="notepad">
+            <img src="/static/images/backdrop_notepad.jpg" alt="Notepad" style="float:right;width:22%;height:22%">
+        </div>
+    </body>
+</html>
+
