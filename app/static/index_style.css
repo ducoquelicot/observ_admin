@@ -1,0 +1,52 @@
+        
+body {background-color: lightyellow;
+}
+
+nav {text-align:right;
+    margin-top: -55px;
+    font-family: 'Muli', sans-serif;
+    font-weight: 700;
+    font-size: 23px;
+}
+
+h1 {font-family: 'Muli', sans-serif;
+    font-weight: 700;
+    font-size: 35px;
+}
+
+a {text-decoration: none;
+    color: black;
+}
+
+span {color: deepskyblue;
+}
+
+h2 {text-align:justify;
+    margin-left: 600px;
+    font-family: 'Crimson Text', serif;
+    font-weight: 600;
+    font-size: 100px;
+}
+
+h3 {text-align:justify;
+    margin-left: 600px;
+    margin-top: -70px;
+    font-family: 'Crimson Text', serif;
+    font-weight: normal;
+    font-size: 24px;
+    letter-spacing: 1px;
+}
+
+div#account  {margin-left: 600px;
+    font-family: 'Muli', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+div#laptops {margin-left: -10px;
+}
+
+div#notepad {margin-right: 50px;
+    margin-top: -70px;
+}
+
