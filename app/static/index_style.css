@@ -26,17 +26,20 @@ span {
     color: deepskyblue;
 }
 
+div#text {
+    margin: 0 auto;
+    width: 600px;
+}
+
 h2 {
-    text-align:justify;
-    margin-left: 600px;
+    text-align: justify;
     font-family: 'Crimson Text', serif;
     font-weight: 600;
     font-size: 100px;
 }
 
 h3 {
-    text-align:justify;
-    margin-left: 600px;
+    text-align: justify;
     margin-top: -70px;
     font-family: 'Crimson Text', serif;
     font-weight: normal;
@@ -45,7 +48,8 @@ h3 {
 }
 
 div#account  {
-    margin-left: 600px;
+    margin: 0 auto;
+    width: 600px;
     font-family: 'Muli', sans-serif;
     font-weight: 700;
     font-size: 20px;
@@ -60,3 +64,23 @@ div#notepad {
     margin-top: -70px;
 }
 
+@media (max-width: 900px) {
+    div#laptops {
+        display: none;
+    }
+    div#notepad {
+        display: none;
+    }
+    nav {
+        margin: 0 auto;
+        width: 300px;
+    }
+    div#text {
+        margin: 0 auto;
+        width: 300px;
+    }
+    div#account{
+        margin: 0 auto;
+        width: 300px;
+    }
+}
