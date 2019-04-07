@@ -21,7 +21,7 @@ a {
     color: black;
 }
 
-span.blue {
+span {
     color: deepskyblue;
 }
 
@@ -33,28 +33,12 @@ h3 {
     width: 300px;
 }
 
-p {
-    font-family: 'Muli', sans-serif;
-    font-weight: 700;
-    font-size: 22px;
-}
-
 form {
     font-family: 'Muli', sans-serif;
-    font-weight: 400;
+    font-size: 20px;
+    font-weight: 600;
     margin: 0 auto;
     width: 300px;
-}
-
-span.form {
-    font-size: 22px;
-    font-weight: 600;
-}
-
-input[type=submit] {
-    font-family: 'Muli', sans-serif;
-    font-weight: 600;
-    cursor: pointer;
 }
 
 div#laptops {
@@ -63,7 +47,17 @@ div#laptops {
 
 div#notepad {
     margin-right: 50px;
-    margin-top: 45px;
+    margin-top: 70px;
+}
+
+label#remember_me {
+    color: deepskyblue;
+}
+
+input[type=submit] {
+    font-family: 'Muli', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
 }
 
 @media (max-width: 900px) {

@@ -1,4 +1,3 @@
-        
 body {
     background-color: lightyellow;
 }
@@ -61,7 +60,7 @@ div#laptops {
 
 div#notepad {
     margin-right: 50px;
-    margin-top: -70px;
+    margin-top: -66px;
 }
 
 @media (max-width: 900px) {

@@ -9,12 +9,12 @@
     </head>
     <body>
 
-    <a href="/index"><h1>&nbsp; obser<span>v</span></h1></a>
+    <a href="{{ url_for('index') }}"><h1>&nbsp; obser<span>v</span></h1></a>
 
     <nav>
         <a href="/about">abou<span>t</span> &nbsp; &nbsp;</a>  
-        <a href="/login">logi<span>n</span> &nbsp; &nbsp;</a>  
-        <a href="/signup">sign u<span>p</span> &nbsp; &nbsp; &nbsp;</a>
+        <a href="{{ url_for('login') }}">logi<span>n</span> &nbsp; &nbsp;</a>  
+        <a href="{{ url_for('signup') }}">sign u<span>p</span> &nbsp; &nbsp; &nbsp;</a>
     </nav>
 
     <br />
@@ -33,7 +33,7 @@
     </div>
 
     <div id="account">
-        <a href='/signup'>Create an accoun<span>t</span></a>
+        <a href="{{ url_for('signup') }}">Create an accoun<span>t</span></a>
     </div>
 
     <div id="notepad">

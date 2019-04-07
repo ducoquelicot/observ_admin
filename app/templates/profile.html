@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <title>observ - {{ title }}</title>
-        <link rel="stylesheet" href="/static/search_style.css">
+        <link rel="stylesheet" href="/static/profile_style.css">
         <link href="https://fonts.googleapis.com/css?family=Muli:400,600,700" rel="stylesheet"> 
         <link href="https://fonts.googleapis.com/css?family=Crimson+Text:400,600,700" rel="stylesheet">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,28 +28,16 @@
     <br />
     <br />
     <br />
-    <br />
-    <h3>search databas<span class="blue">e</span></h3>
     
-    <br />
-    <!-- here needs action="/results.html" when ready-->
-    <form>
-        <span class="form">keyword</span><br />
-        <input type="text" name="keyword"><br />
-        <br />
-        <span class="form">city</span><br />
-        <input type="checkbox" name="city" value="palo alto">Palo Alto<br />
-        <input type="checkbox" name="city" value="los altos">Los Altos<br />
-        <br />
-        <span class="form">document type</span><br />
-        <input type="radio" name="doctype" value="agenda" checked> Agenda<br />
-        <br />
-        <input type="submit" value="Search">
-    </form>
+    <h2>{{ user.username }}</h2><br />
+    <h3 class="identifiers">emai<span class="blue">l</span></h3>
+    <h3>{{ user.email }}</h3><br />
+    <h3 class="identifiers">organizatio<span class="blue">n</span></h3>
+    <h3>{{ user.organization }}</h3>
 
     <div id="notepad">
-            <img src="/static/images/backdrop_notepad.jpg" alt="Notepad" style="float:right;width:22%;height:22%">
-        </div>
-    </body>
-</html>
+        <img src="/static/images/backdrop_notepad.jpg" alt="Notepad" style="float:right;width:22%;height:22%">
+    </div>
 
+    </body> 
+</html>
