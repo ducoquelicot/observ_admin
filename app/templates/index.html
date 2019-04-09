@@ -9,12 +9,18 @@
     </head>
     <body>
 
-    <a href="{{ url_for('index') }}"><h1>&nbsp; obser<span>v</span></h1></a>
+    <a href="{{ url_for('index') }}"><h1>&nbsp; obser<span class="blue">v</span></h1></a>
 
     <nav>
-        <a href="/about">abou<span>t</span> &nbsp; &nbsp;</a>  
-        <a href="{{ url_for('login') }}">logi<span>n</span> &nbsp; &nbsp;</a>  
-        <a href="{{ url_for('signup') }}">sign u<span>p</span> &nbsp; &nbsp; &nbsp;</a>
+        {% if current_user.is_anonymous %} 
+        <a href="/about">abou<span class="blue">t</span> &nbsp; &nbsp;</a>
+        <a href="{{ url_for('login') }}">logi<span class="blue">n</span> &nbsp; &nbsp;</a>  
+        <a href="{{ url_for('signup') }}">sign u<span class="blue">p</span> &nbsp; &nbsp; &nbsp;</a>
+        {% else %}
+        <a href="{{ url_for('user', username=current_user.username) }}">profil<span class="blue">e</span> &nbsp; &nbsp;</a>  
+        <a href="{{ url_for('search')  }}">searc<span class="blue">h</span> &nbsp; &nbsp;</a>  
+        <a href="{{ url_for('signout') }}">sign ou<span class="blue">t</span> &nbsp; &nbsp; &nbsp;</a>
+        {% endif %}
     </nav>
 
     <br />
@@ -27,16 +33,16 @@
     <br />
     <br />
     <div id="text">
-        <h2>Get the news, <br /><span>first.</span></h2>
+        <h2 id="intro">Get the news, <br /><span class="blue">first.</span></h2>
 
-        <h3>With observ, you don't have to track all city council agendas for updates on your beat. You tell us what you need, and we deliver the information where you want it, when you want it.</h3>
+        <h3 id="tagline">With observ, you don't have to track all city council agendas for updates on your beat. You tell us what you need, and we deliver the information where you want it, when you want it.</h3>
     </div>
 
     <div id="account">
-        <a href="{{ url_for('signup') }}">Create an accoun<span>t</span></a>
+        <a href="{{ url_for('signup') }}">Create an accoun<span class="blue">t</span></a>
     </div>
 
-    <div id="notepad">
+    <div id="index">
         <img src="/static/images/backdrop_notepad.jpg" alt="Notepad" style="float:right;width:22%;height:22%">
     </div>
 

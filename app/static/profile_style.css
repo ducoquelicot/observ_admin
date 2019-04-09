@@ -25,7 +25,7 @@ span.blue {
     color: deepskyblue;
 }
 
-h2 {
+h2#username {
     text-align: justify;
     font-family: 'Crimson Text', serif;
     font-weight: 600;
@@ -34,9 +34,8 @@ h2 {
     width: 800px;
 }
 
-h3 {
+h3.fields {
     text-align: justify;
-    margin-top: -70px;
     font-family: 'Crimson Text', serif;
     font-weight: normal;
     font-size: 21px;
@@ -46,10 +45,17 @@ h3 {
 
 h3.identifiers {
     text-align: justify;
-    margin-top: -70px;
     font-family: 'Muli', sans-serif;
     font-weight: 700;
     font-size: 23px;
+    margin: 0 auto;
+    width: 800px;
+}
+
+h3#edit {
+    font-family: 'Muli', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
     margin: 0 auto;
     width: 800px;
 }
@@ -58,9 +64,9 @@ div#laptops {
     margin-left: -10px;
 }
 
-div#notepad {
-    margin-right: 50px;
-    margin-top: 0px;
+div#avatar {
+    margin: 0 auto;
+    width: 800px;
 }
 
 @media (max-width: 900px) {

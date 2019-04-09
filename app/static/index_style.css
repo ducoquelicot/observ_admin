@@ -16,28 +16,30 @@ h1 {
     font-size: 35px;
 }
 
-a {
-    text-decoration: none;
-    color: black;
-}
-
-span {
-    color: deepskyblue;
-}
-
-div#text {
-    margin: 0 auto;
-    width: 600px;
-}
-
-h2 {
+h2#intro {
     text-align: justify;
     font-family: 'Crimson Text', serif;
     font-weight: 600;
     font-size: 100px;
 }
 
-h3 {
+h2#error {
+    text-align: left;
+    font-family: 'Crimson Text', serif;
+    font-weight: 600;
+    font-size: 50px;
+}
+
+h2#username {
+    text-align: justify;
+    font-family: 'Crimson Text', serif;
+    font-weight: 600;
+    font-size: 40px;
+    margin: 0 auto;
+    width: 800px;
+}
+
+h3#tagline {
     text-align: justify;
     margin-top: -70px;
     font-family: 'Crimson Text', serif;
@@ -45,6 +47,81 @@ h3 {
     font-size: 24px;
     letter-spacing: 1px;
 }
+
+h3.header {
+    font-family: 'Muli', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    margin: 0 auto;
+    width: 300px;
+}
+
+h3.fields {
+    text-align: justify;
+    font-family: 'Crimson Text', serif;
+    font-weight: normal;
+    font-size: 21px;
+    margin: 0 auto;
+    width: 800px;
+}
+
+h3.identifiers {
+    text-align: justify;
+    font-family: 'Muli', sans-serif;
+    font-weight: 700;
+    font-size: 23px;
+    margin: 0 auto;
+    width: 800px;
+}
+
+h3#edit {
+    font-family: 'Muli', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    margin: 0 auto;
+    width: 800px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+span.blue {
+    color: deepskyblue;
+}
+
+span.form {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+form {
+    font-family: 'Muli', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 auto;
+    width: 300px;
+}
+
+form#search {
+    font-family: 'Muli', sans-serif;
+    font-weight: 400;
+    margin: 0 auto;
+    width: 300px;
+}
+
+p {
+    font-family: 'Muli', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+}
+
+div#text {
+    margin: 0 auto;
+    width: 600px;
+}
+
 
 div#account  {
     margin: 0 auto;
@@ -58,18 +135,75 @@ div#laptops {
     margin-left: -10px;
 }
 
-div#notepad {
+div#index {
     margin-right: 50px;
     margin-top: -66px;
+}
+
+div#notepad {
+    margin-right: 50px;
+    margin-top: 48px;
+}
+
+div#signup {
+    margin-right: 50px;
+    margin-top: -166px;
+}
+
+div#searchpage {
+    margin-right: 50px;
+    margin-top: 49px;
+}
+
+div#editprofile {
+    margin-right: 50px;
+    margin-top: 98px;
+}
+
+div#mistake {
+    margin: 0 auto;
+    width: 400px;
+}
+
+div#avatar {
+    margin: 0 auto;
+    width: 800px;
+}
+
+label#remember_me {
+    color: deepskyblue;
+}
+
+input[type=submit] {
+    font-family: 'Muli', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
 }
 
 @media (max-width: 900px) {
     div#laptops {
         display: none;
     }
+    div#index {
+        display: none;
+    }
+
+    div#signup {
+        display: none;
+    }
+
+    div#searchpage {
+        display: none;
+    }
+
     div#notepad {
         display: none;
     }
+
+    div#editprofile {
+        display: none;
+    }
+
     nav {
         margin: 0 auto;
         width: 300px;

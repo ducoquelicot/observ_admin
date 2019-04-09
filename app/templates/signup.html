@@ -1,35 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title>observ - {{ title }}</title>
-        <link rel="stylesheet" href="/static/signup_style.css">
-        <link href="https://fonts.googleapis.com/css?family=Muli:400,600,700" rel="stylesheet"> 
-        <link href="https://fonts.googleapis.com/css?family=Crimson+Text:400,600,700" rel="stylesheet">
-        <meta name="viewport" content="width=device-width, initial-scale=1">  
-    </head>
-    <body>
+{% extends 'base_prelogin.html' %}
 
-    <a href="{{ url_for('index') }}"><h1>&nbsp; obser<span>v</span></h1></a>
-
-    <nav>
-        <a href="/about">abou<span>t</span> &nbsp; &nbsp;</a>  
-        <a href="{{ url_for('login') }}">logi<span>n</span> &nbsp; &nbsp;</a>  
-        <a href="/signup">sign u<span>p</span> &nbsp; &nbsp; &nbsp;</a>
-    </nav>
-
-    <br />
-    <br />
-
-    <div id="laptops">
-        <img src="/static/images/backdrop_laptops.jpg" alt="Two laptops" style="float:left;width:20%;height:20%">
-    </div>
-
+{% block content %}
     <br />
     <br />
     <br />
     <br />
     <br />
-    <h3>create an accoun<span>t</span></h3>
+    <h3 id="login">create an accoun<span>t</span></h3>
     <br />
     <form action="" method="post">
         {{ form.hidden_tag() }}
@@ -72,9 +49,7 @@
     </form>
 
 
-    <div id="notepad">
+    <div id="signup">
         <img src="/static/images/backdrop_notepad.jpg" alt="Notepad" style="float:right;width:22%;height:22%">
     </div>
-
-    </body> 
-</html>
+{% endlbock %}

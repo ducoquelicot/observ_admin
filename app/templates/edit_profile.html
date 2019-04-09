@@ -1,0 +1,34 @@
+{% extends 'base_login.html' %}
+
+{% block content %}
+<br />
+<br />
+<br />
+<br />
+<br />
+<h3 class="header">edit profil<span class="blue">e</span></h3>
+
+<br />
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.username.label }}<br />
+        {{ form.username(size=32) }}<br />
+        {% for error in form.username.errors %}
+        <span style="color:red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.organization.label }}<br />
+        {{ form.organization(size=32) }}<br />
+        {% for error in form.organization.errors %}
+        <span style="color:red">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>{{ form.submit() }}</p>
+</form>
+
+<div id="editprofile">
+    <img src="/static/images/backdrop_notepad.jpg" alt="Notepad" style="float:right;width:22%;height:22%;">
+</div>
+{% endblock %}

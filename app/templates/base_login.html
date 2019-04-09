@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>observ - {{ title }}</title>
+        <link rel="stylesheet" href="/static/index_style.css">
+        <link href="https://fonts.googleapis.com/css?family=Muli:400,600,700" rel="stylesheet"> 
+        <link href="https://fonts.googleapis.com/css?family=Crimson+Text:400,600,700" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+
+    <a href="{{ url_for('index') }}"><h1>&nbsp; obser<span class="blue">v</span></h1></a>
+
+    <nav>
+        <a href="{{ url_for('user', username=current_user.username) }}">profil<span class="blue">e</span> &nbsp; &nbsp;</a>  
+        <a href="{{ url_for('search') }}">searc<span class="blue">h</span> &nbsp; &nbsp;</a>  
+        <a href="{{ url_for('signout') }}">sign ou<span class="blue">t</span> &nbsp; &nbsp; &nbsp;</a>
+    </nav>
+
+    <br />
+    <br />
+
+    <div id="laptops">
+            <img src="/static/images/backdrop_laptops.jpg" alt="Two laptops" style="float:left;width:20%;height:20%">
+    </div>
+    
+    {% block content %}{% endblock %}
+    </body>
+</html>

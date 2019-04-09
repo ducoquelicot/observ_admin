@@ -16,6 +16,13 @@ h1 {
     font-size: 35px;
 }
 
+h2#error {
+    text-align: left;
+    font-family: 'Crimson Text', serif;
+    font-weight: 600;
+    font-size: 50px;
+}
+
 a {
     text-decoration: none;
     color: black;
@@ -39,7 +46,7 @@ p {
     font-size: 22px;
 }
 
-form {
+form#search {
     font-family: 'Muli', sans-serif;
     font-weight: 400;
     margin: 0 auto;
@@ -61,9 +68,14 @@ div#laptops {
     margin-left: -10px;
 }
 
-div#notepad {
+div#search_page {
     margin-right: 50px;
-    margin-top: 45px;
+    margin-top: 49px;
+}
+
+div#mistake {
+    margin: 0 auto;
+    width: 400px;
 }
 
 @media (max-width: 900px) {

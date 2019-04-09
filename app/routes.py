@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for, request
 from app import observ, db
-from app.forms import LoginForm, RegistrationForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User
 from werkzeug.urls import url_parse
@@ -56,3 +56,18 @@ def signup():
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
     return render_template('profile.html', title='profile', user=user)
+
+@observ.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        current_user.organization = form.organization.data
+        db.session.commit()
+        flash('Changes saved.')
+        return redirect(url_for('edit_profile'))
+    elif request.method == 'GET':
+        form.username.data  = current_user.username
+        form.organization.data = current_user.organization
+    return render_template('edit_profile.html', title='edit profile', form=form)
