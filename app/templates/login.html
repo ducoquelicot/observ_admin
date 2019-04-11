@@ -6,28 +6,32 @@
     <br />
     <br />
     <br />
-    <h3 class="header">login to obser<span>v</span></h3>
+    <h3 class="header">login to obser<span class="blue">v</span></h3>
     <br />
 
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
-        <p>
+        <p class="fields">
             {{ form.email.label }}<br />
             {{ form.email(size=32) }}<br />
             {% for error in form.email.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %} 
         </p>
-        <p>
+        <p class="fields">
             {{ form.password.label }}<br />
             {{ form.password(size=32) }}<br />
             {% for error in form.password.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p>{{ form.remember_me() }} {{ form.remember_me.label(id='remember_me') }}</p>
-        <p>{{ form.submit() }}</p>
+        <p class="fields">{{ form.remember_me() }} {{ form.remember_me.label(id='remember_me') }}</p>
+        <p class="fields">{{ form.submit() }}</p>
     </form>
+
+    <p class="forgot">
+        forgot your password? <a href="{{ url_for('reset_password_request') }}"><span class="blue">click to reset</span></a>
+    </p>
 
 
     <div id="notepad">

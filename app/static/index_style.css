@@ -117,6 +117,20 @@ p {
     font-size: 22px;
 }
 
+p.fields {
+    font-family: 'Muli', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+p.forgot {
+    font-family: 'Muli', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    margin: 0 auto;
+    width: 300px;
+}
+
 div#text {
     margin: 0 auto;
     width: 600px;
@@ -142,12 +156,12 @@ div#index {
 
 div#notepad {
     margin-right: 50px;
-    margin-top: 48px;
+    margin-top: 30px;
 }
 
 div#signup {
     margin-right: 50px;
-    margin-top: -166px;
+    margin-top: -132px;
 }
 
 div#searchpage {
@@ -168,6 +182,16 @@ div#mistake {
 div#avatar {
     margin: 0 auto;
     width: 800px;
+}
+
+div#reset {
+    margin-right: 50px;
+    margin-top: 186px;
+}
+
+div#passwordpage {
+    margin-right: 50px;
+    margin-top: 49px; 
 }
 
 label#remember_me {

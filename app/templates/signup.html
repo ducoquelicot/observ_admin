@@ -6,39 +6,39 @@
     <br />
     <br />
     <br />
-    <h3 id="login">create an accoun<span>t</span></h3>
+    <h3 class="header">create an accoun<span class="blue">t</span></h3>
     <br />
     <form action="" method="post">
         {{ form.hidden_tag() }}
-        <p>
+        <p class="fields">
             {{ form.username.label }}<br />
             {{ form.username(size=32) }}<br />
             {% for error in form.username.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p>
+        <p class="fields">
             {{ form.organization.label }}<br />
             {{ form.organization(size=32) }}<br />
             {% for error in form.organization.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p>
+        <p class="fields">
             {{ form.email.label }}<br />
             {{ form.email(size=32) }}<br />
             {% for error in form.email.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p>
+        <p class="fields">
             {{ form.password.label }}<br />
             {{ form.password(size=32) }}<br />
             {% for error in form.password.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p>
+        <p class="fields">
             {{ form.password2.label }}<br />
             {{ form.password2(size=32) }}<br />
             {% for error in form.password.errors %}
@@ -52,4 +52,4 @@
     <div id="signup">
         <img src="/static/images/backdrop_notepad.jpg" alt="Notepad" style="float:right;width:22%;height:22%">
     </div>
-{% endlbock %}
+{% endblock %}
