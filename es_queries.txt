@@ -1,0 +1,130 @@
+GET /paloalto/_search
+{
+  "query" : {
+    "bool" : {
+      "must" : [
+        { "match" : {"type" : "agenda" } },
+        { "bool" : {
+          "minimum_should_match" : 1,
+          "should" : [
+            {"match" : {"city" : "paloalto" } },
+            {"match" : {"city" : "redwoodcity" } }
+            ]
+          }
+        },
+        { "bool" : {
+          "minimum_should_match": 1,
+          "should" : [
+            {"match" : {"body" : "Members" } },
+            {"match" : {"body" : "Comment" } }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET /paloalto/_search
+{
+  "query" : {
+    "bool" : {
+      "must" : [
+        {"bool" : {
+          "minimum_should_match": 1,
+          "should" : [
+            {"match" : {"type" : "agenda" } },
+            {"match" : {"type" : "minutes" } }
+            ]
+          }
+        },
+        {"bool" : {
+          "minimum_should_match": 1,
+          "should" : [
+            {"match" : {"city" : "paloalto" } },
+            {"match" : {"city" : "redwoodcity" } }
+            ]
+          }
+        },
+        {"bool" : {
+          "must" : [
+            {"match" : {"body" : "President" } },
+            {"match" : {"body" : "Hotel" } }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET /paloalto/_search
+{
+  "query" : {
+    "bool" : {
+      "must" : [
+        {"bool" : {
+          "minimum_should_match": 1,
+          "should" : [
+            {"match" : {"type" : "agenda" } },
+            {"match" : {"type" : "minutes" } }
+            ]
+          }
+        },
+        {"bool" : {
+          "minimum_should_match": 1,
+          "should" : [
+            {"match" : {"city" : "paloalto" } },
+            {"match" : {"city" : "redwoodcity" } }
+            ]
+          }
+        },
+        {"bool" : {
+          "minimum_should_match": 1, 
+          "should" : [
+            {"match" : {"body" : "President" } },
+            {"match" : {"body" : "Comment" } }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET /paloalto/_search
+{
+  "query" : {
+    "bool" : {
+      "must" : [
+        {"bool" : {
+          "minimum_should_match": 1,
+          "should" : [
+            {"match" : {"type" : "agenda" } },
+            {"match" : {"type" : "minutes" } }
+            ]
+          }
+        },
+        {"bool" : {
+          "minimum_should_match": 1,
+          "should" : [
+            {"match" : {"city" : "paloalto" } },
+            {"match" : {"city" : "redwoodcity" } }
+            ]
+          }
+        },
+        {"bool" : {
+          "must" : {
+            "match" : {
+              "body" : {
+                "query" : "President Hotel",
+                "operator" : "and"
+              }
+            }
+          }
+        }
+        }
+      ]
+    }
+  }
+}
