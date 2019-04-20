@@ -128,3 +128,13 @@ GET /paloalto/_search
     }
   }
 }
+
+GET /records/_search
+{
+  "query" : {
+    "query_string": {
+      "default_field": "body",
+      "query": "This OR cat +type : minutes +city : paloalto"
+    }
+  }
+}

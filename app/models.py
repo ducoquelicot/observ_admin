@@ -11,7 +11,6 @@ class User(UserMixin, db.Model):
     organization = db.Column(db.String(64), index=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
-    subs = db.relationship('Sub', backref = 'user', lazy='dynamic')
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -45,10 +44,14 @@ class User(UserMixin, db.Model):
 def load_user(id):
     return User.query.get(int(id))
 
-class Sub(db.Model):
+class Record(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    keyword = db.Column(db.String(140))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    name = db.Column(db.String(200), index=True)
+    city = db.Column(db.String(64), index=True)
+    doc_type = db.Column(db.String(64), index=True)
+    date = db.Column(db.String(64))
+    path = db.Column(db.String(200), index=True)
+
 
     def __repr__(self):
-        return '<Sub {}>'.format(self.keyword)
+        return '<Record {}>'.format(self.keyword)
