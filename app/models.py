@@ -45,6 +45,7 @@ def load_user(id):
     return User.query.get(int(id))
 
 class Record(db.Model):
+    __tablename__ = 'records'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), index=True)
     city = db.Column(db.String(64), index=True)
