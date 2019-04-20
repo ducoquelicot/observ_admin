@@ -1,11 +1,11 @@
 from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Search, Q
 
-def query_func():
+def query_func(doctype, city):
     es = Elasticsearch()
     q = Q("query_string",
             default_field = "body",
-            query = "This OR cat +type : minutes +city : paloalto"
+            query = "This OR cat +type : " +doctype+ " +city : " +city
         )
 
     s = Search(using=es, index="records").query(q)
@@ -21,4 +21,4 @@ def query_func():
     
     return output
 
-print(query_func())
+print(query_func("*","*"))
