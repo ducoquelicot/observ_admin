@@ -12,5 +12,8 @@ total = s.count()
 s = s[0:total]
 response = s.execute()
 
-for hit in response.hits.hits:
-    print("ID: {} \nCity: {} \nType: {}\nBody: {} \n".format(hit['_id'], hit['_source']['city'], hit['_source']['type'], hit['_source']['body']))
+# for hit in response.hits.hits:
+#     print("ID: {} \nCity: {} \nType: {}\nBody: {} \n".format(hit['_id'], hit['_source']['city'], hit['_source']['type'], hit['_source']['body']))
+
+ids = [hit['_id'] for hit in response.hits.hits]
+print(ids, total)
