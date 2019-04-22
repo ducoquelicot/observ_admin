@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectMultipleField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 from app.models import User
+from flask import request
 
 class LoginForm(FlaskForm):
     email = StringField('email address', validators=[DataRequired()])
@@ -50,3 +51,16 @@ class ResetPasswordForm(FlaskForm):
     password = PasswordField('password', validators=[DataRequired()])
     password2 = PasswordField('repeat password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('request password reset')
+
+class SearchForm(FlaskForm):
+    q = StringField('query', validators=[DataRequired()])
+    doc_type = SelectMultipleField('document type', validators=[DataRequired()], choices=[('agenda', 'Agenda'), ('minutes', 'Minutes'), ('*', 'All')])
+    city = SelectMultipleField('city', validators=[DataRequired()], choices=[('paloalto', 'Palo Alto'), ('redwoodcity', 'Redwood City'), ('*', 'All')])
+    submit = SubmitField('search')
+
+    def __init__(self, *args, **kwargs):
+        if 'formdata' not in kwargs:
+            kwargs['formdata'] = request.args
+        if 'csrf_enabled' not in kwargs:
+            kwargs['csrf_enabled'] = False
+        super(SearchForm, self).__init__(*args, **kwargs)

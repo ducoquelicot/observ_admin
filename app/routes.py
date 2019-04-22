@@ -1,8 +1,8 @@
 from flask import render_template, flash, redirect, url_for, request
 from app import observ, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm, ResetPasswordRequestForm, ResetPasswordForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, ResetPasswordRequestForm, ResetPasswordForm, SearchForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User
+from app.models import User, Record
 from werkzeug.urls import url_parse
 from app.email import send_password_reset_email
 
@@ -14,7 +14,16 @@ def index():
 @observ.route('/search')
 @login_required
 def search():
-    return render_template('search.html', title='search')
+    form = SearchForm()
+    if not form.validate():
+        return render_template('search.html', title='search', form=form)
+    expression = form.q.data
+    docs = form.doc_type.data
+    cities = form.city.data
+    doctype = ','.join(docs)
+    city = ','.join(cities)
+    results, total = Record.search(expression, doctype, city)
+    return render_template('search.html', title='search', results=results, form=form)
 
 @observ.route('/login', methods=['GET', 'POST'])
 def login():

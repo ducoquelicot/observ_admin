@@ -15,4 +15,4 @@ login.login_view = 'login'
 mail = Mail(observ)
 es = Elasticsearch([observ.config['ELASTICSEARCH_URL']])
 
-from app import routes, models, errors, search
+from app import routes, models, errors

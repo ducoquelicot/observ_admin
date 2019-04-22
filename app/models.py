@@ -1,4 +1,5 @@
 from app import db, login, observ
+from app.search import query_index
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from hashlib import md5
@@ -44,7 +45,19 @@ class User(UserMixin, db.Model):
 def load_user(id):
     return User.query.get(int(id))
 
-class Record(db.Model):
+class SearchableMixin(object):
+    @classmethod
+    def search(cls, expression, doctype, city):
+        ids, total = query_index(expression, doctype, city)
+        if total == 0:
+            return cls.query.filter_by(id=0), 0
+        when = []
+        for i in range(len(ids)):
+            when.append((ids[i], i))
+        return cls.query.filter(cls.id.in_(ids)).order_by(
+            db.case(when, value=cls.id)), total
+
+class Record(SearchableMixin, db.Model):
     __tablename__ = 'records'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), index=True)
@@ -55,4 +68,4 @@ class Record(db.Model):
 
 
     def __repr__(self):
-        return '<Record {}>'.format(self.keyword)
+        return 'Record: {}\nCity: {}\nType: {}\nDate: {}\n\n'.format(self.name, self.city, self.doc_type, self.date)
