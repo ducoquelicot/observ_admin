@@ -6,7 +6,7 @@ def query_index(expression, doctype, city):
         return [], 0
     q = Q("query_string",
                 default_field = "body",
-                query = expression+ " +type : " +doctype+ " +city : " +city
+                query = "{} +type : {} +city : {}".format(expression, doctype, city)
         )
 
     s = Search(using=es, index="records").query(q)
