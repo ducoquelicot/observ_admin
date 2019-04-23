@@ -68,4 +68,4 @@ class Record(SearchableMixin, db.Model):
 
 
     def __repr__(self):
-        return 'Record: {}\nCity: {}\nType: {}\nDate: {}\n\n'.format(self.name, self.city, self.doc_type, self.date)
+        return 'Record: {} City: {} Type: {} Date: {}'.format(self.name, self.city, self.doc_type, self.date)

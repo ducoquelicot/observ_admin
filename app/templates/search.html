@@ -11,24 +11,15 @@
     <form id="search" action="" method="get">
         <p class="fields">
             {{ form.q.label }}<br />
-            {{ form.q(size=32) }}<br />
-            {% for error in form.q.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}            
+            {{ form.q(size=30) }}<br /> 
         </p>
         <p class="fields">
             {{ form.doc_type.label }}<br />
             {{ form.doc_type }}<br />
-            {% for error in form.doc_type.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
         </p>
         <p class="fields">
             {{ form.city.label }}<br />
             {{ form.city }}<br />
-            {% for error in form.city.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
         </p>
         <p>{{ form.submit }}</p>
     </form>
@@ -41,7 +32,7 @@
         <h3 class="header">result<span class="blue">s</span></h3>
     {% endif %}
     {% for result in results %}
-        <p>{{ result }}</p>
+        <p class="forgot">{{ result }}</p><br />
     {% endfor %}
 {% endblock %}
 
