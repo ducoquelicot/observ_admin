@@ -59,13 +59,14 @@ class SearchableMixin(object):
 
 class Record(SearchableMixin, db.Model):
     __tablename__ = 'records'
+    __searchable__ = ['city', 'doctype', 'body']
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), index=True)
     city = db.Column(db.String(64), index=True)
-    doc_type = db.Column(db.String(64), index=True)
+    doctype = db.Column(db.String(64), index=True)
     date = db.Column(db.String(64))
-    path = db.Column(db.String(200), index=True)
+    body = db.Column(db.String(200), index=True)
 
 
     def __repr__(self):
-        return 'Record: {} City: {} Type: {} Date: {}'.format(self.name, self.city, self.doc_type, self.date)
+        return 'Record: {} City: {} Type: {} Date: {}'.format(self.name, self.city, self.doctype, self.date)

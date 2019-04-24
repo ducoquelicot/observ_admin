@@ -1,12 +1,13 @@
 from elasticsearch_dsl import Search, Q
-from app import observ, es
+from app import observ, es, db
+from app.models import Record
 
 def query_index(expression, doctype, city):
     if not observ.config['ELASTICSEARCH_URL']:
         return [], 0
     q = Q("query_string",
                 default_field = "body",
-                query = "{} +type : {} +city : {}".format(expression, doctype, city)
+                query = "{} +doctype : {} +city : {}".format(expression, doctype, city)
         )
 
     s = Search(using=es, index="records").query(q)
@@ -25,3 +26,14 @@ def query_index(expression, doctype, city):
     ids = [hit['_id'] for hit in response.hits.hits]
 
     return ids, total
+
+def add_database(name, city, doctype, date, body):
+    r = Record(
+        name = name,
+        city = city,
+        doctype = doctype,
+        date = date,
+        body = body
+    )
+    db.session.add(r)
+    db.session.commit()
