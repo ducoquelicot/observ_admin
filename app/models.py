@@ -1,10 +1,10 @@
 from app import db, login, observ
-from app.search import query_index
+from app.search import query_index, add_to_index
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from hashlib import md5
 from time import time
-import jwt
+import jwt, os, csv
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -57,9 +57,30 @@ class SearchableMixin(object):
         return cls.query.filter(cls.id.in_(ids)).order_by(
             db.case(when, value=cls.id)), total
 
+    @classmethod
+    def add_database(cls):
+        with open(os.path.expanduser('~/Desktop/Python/Files/db_test.csv'), 'r') as database:
+            reader = csv.reader(database)
+            database.readline()
+            for row in reader:
+                r = cls(
+                    name = row[0],
+                    city = row[1],
+                    doctype = row[2],
+                    date = row[3],
+                    body = row[4]
+                )
+                db.session.add(r)
+                db.session.commit()
+
+    @classmethod
+    def reindex(cls):
+        for obj in cls.query:
+            add_to_index(obj)
+
 class Record(SearchableMixin, db.Model):
     __tablename__ = 'records'
-    __searchable__ = ['city', 'doctype', 'body']
+    __searchable__ = ['name', 'city', 'doctype', 'body']
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), index=True)
     city = db.Column(db.String(64), index=True)

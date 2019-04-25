@@ -30,7 +30,9 @@
     <br />
     {% if results %}
         <h3 class="header">result<span class="blue">s</span></h3>
+        <p class="forgot">Total results: {{ total }}</p>
     {% endif %}
+    <br />
     {% for result in results %}
         <p class="forgot">{{ result }}</p><br />
     {% endfor %}

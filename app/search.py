@@ -1,6 +1,12 @@
 from elasticsearch_dsl import Search, Q
-from app import observ, es, db
-from app.models import Record
+from app import observ, es, db, models
+import csv, os
+
+def add_to_index(model):
+    payload = {}
+    for field in model.__searchable__:
+        payload[field] = getattr(model, field)
+    es.index(index="records", doc_type="_doc", id=model.id, body=payload)
 
 def query_index(expression, doctype, city):
     if not observ.config['ELASTICSEARCH_URL']:
@@ -26,14 +32,3 @@ def query_index(expression, doctype, city):
     ids = [hit['_id'] for hit in response.hits.hits]
 
     return ids, total
-
-def add_database(name, city, doctype, date, body):
-    r = Record(
-        name = name,
-        city = city,
-        doctype = doctype,
-        date = date,
-        body = body
-    )
-    db.session.add(r)
-    db.session.commit()

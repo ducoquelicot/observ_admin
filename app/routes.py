@@ -23,7 +23,7 @@ def search():
     doctype = ','.join(docs)
     city = ','.join(cities)
     results, total = Record.search(expression, doctype, city)
-    return render_template('search.html', title='search', results=results, form=form)
+    return render_template('search.html', title='search', results=results, total=total, form=form)
 
 @observ.route('/login', methods=['GET', 'POST'])
 def login():
