@@ -13,7 +13,7 @@ def query_index(expression, doctype, city):
         return [], 0
     q = Q("query_string",
                 default_field = "body",
-                query = "{} +doctype : {} +city : {}".format(expression, doctype, city)
+                query = "({}) AND doctype:{} AND city:{}".format(expression, doctype, city)
         )
 
     s = Search(using=es, index="records").query(q)
