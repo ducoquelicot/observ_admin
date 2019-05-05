@@ -203,6 +203,44 @@ input[type=submit] {
     cursor: pointer;
 }
 
+.pagination {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.pagination tr.inactive
+{
+    display: none;
+}
+
+.pager
+{
+    padding: 10px 0px;
+    width: 16%;
+    margin: 0 auto;
+}
+
+.pager .pager-item
+{
+    padding: 10px;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    background-color: lightyellow;
+    transition: .5s background-color;
+    color: black;
+}
+
+.pager .pager-item:hover
+{
+    background-color: deepskyblue;
+}
+
+.pager .pager-item.selected
+{
+    background-color: deepskyblue
+}
+
 @media (max-width: 900px) {
     div#laptops {
         display: none;
