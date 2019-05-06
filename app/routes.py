@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for, request
 from app import observ, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm, ResetPasswordRequestForm, ResetPasswordForm, SearchForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, ResetPasswordRequestForm, ResetPasswordForm, SearchForm, SubscriptionForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Record
 from werkzeug.urls import url_parse
@@ -14,16 +14,25 @@ def index():
 @observ.route('/search')
 @login_required
 def search():
-    form = SearchForm()
-    if not form.validate():
-        return render_template('search.html', title='search', form=form)
-    expression = form.q.data
-    docs = form.doc_type.data
-    cities = form.city.data
+    search_form = SearchForm()
+    subscribe_form = SubscriptionForm()
+    if not search_form.validate():
+        return render_template('search.html', title='search', search_form=search_form, subscribe_form=subscribe_form)
+    expression = search_form.q.data
+    docs = search_form.doc_type.data
+    cities = search_form.city.data
     doctype = ','.join(docs)
     city = ','.join(cities)
     results, total = Record.search(expression, doctype, city)
-    return render_template('search.html', title='search', results=results, total=total, form=form)
+    return render_template('search.html', title='search', results=results, total=total, search_form=search_form, subscribe_form=subscribe_form)
+
+# @observ.route('/subscribe', methods=['GET', 'POST'])
+# @login_required
+# def subscribe():
+#     search_form = SearchForm()
+#     subscribe_form = SubscriptionForm
+#     if subscribe_form.validate_on_submit():
+
 
 @observ.route('/login', methods=['GET', 'POST'])
 def login():

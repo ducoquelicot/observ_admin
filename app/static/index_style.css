@@ -111,6 +111,14 @@ form#search {
     width: 300px;
 }
 
+form#subscribe {
+    display: none;
+    font-family: 'Muli', sans-serif;
+    font-weight: 400;
+    margin: 0 auto;
+    width: 300px;
+}
+
 p {
     font-family: 'Muli', sans-serif;
     font-weight: 700;
@@ -239,6 +247,19 @@ input[type=submit] {
 .pager .pager-item.selected
 {
     background-color: deepskyblue
+}
+
+button {
+    padding: 0;
+    border: none;
+    font-size: 25px;
+    font-family: 'Muli', sans-serif;
+    font-weight: 700;
+    color: deepskyblue;
+    background-color: transparent;
+    cursor: pointer;
+    width: 200px;
+    margin: 0 365px;
 }
 
 @media (max-width: 900px) {

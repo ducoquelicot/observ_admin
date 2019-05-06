@@ -3,31 +3,52 @@
 {% block content %}
     <br />
     <br />
-    <br />
-    <br />
-    <br />
     <h3 class="header">search databas<span class="blue">e</span></h3>   
-    <br />
-    <form id="search" action="" method="get">
+    <form id="search" action="{{ url_for('search') }}" method="get">
         <p class="fields">
-            {{ form.q.label }}<br />
-            {{ form.q(size=30) }}<br /> 
+            {{ search_form.q.label }}<br />
+            {{ search_form.q(size=30) }}<br /> 
         </p>
         <p class="fields">
-            {{ form.doc_type.label }}<br />
-            {{ form.doc_type }}<br />
+            {{ search_form.doc_type.label }}<br />
+            {{ search_form.doc_type }}<br />
         </p>
         <p class="fields">
-            {{ form.city.label }}<br />
-            {{ form.city }}<br />
+            {{ search_form.city.label }}<br />
+            {{ search_form.city }}<br />
         </p>
-        <p>{{ form.submit }}</p>
+        <p>{{ search_form.submit }}</p>
     </form>
 
     <br />
+    <!-- <h3 class="header">subscrib<span class="blue">e</span></h3> -->
+    <button onclick="subscribe()">subscribe</button>
+
+    <form id="subscribe" action="" method="post">
+        <p class="fields">
+            {{ subscribe_form.query.label }}<br />
+            {{ subscribe_form.query(size=30) }}<br /> 
+        </p>
+        <p class="fields">
+            {{ subscribe_form.doctype.label }}<br />
+            {{ subscribe_form.doctype }}<br />
+        </p>
+        <p class="fields">
+            {{ subscribe_form.cities.label }}<br />
+            {{ subscribe_form.cities }}<br />
+        </p>
+        <p class="fields">
+            {{ subscribe_form.frequency.label }}<br />
+            {{ subscribe_form.frequency }}
+        </p>
+        <p>{{ subscribe_form.submit }}</p>
+        </p>
+    </form>
+    
     <br />
     <br />
     <br />
+    
     {% if results %}
         <h3 class="header">result<span class="blue">s</span></h3>
         <p class="forgot">Total results: {{ total }}</p>
@@ -36,117 +57,8 @@
     <table class="pagination" data-pagecount="5">
     {% for result in results %}
         <tr>
-            <td>{{ result }}</td>
+            <td> - {{ result }}</td>
         </tr>
     {% endfor %}
-    </table>
-<!-- 
-    <table class="pagination" data-pagecount="2">
-        <tr>
-            <td>Record one</td>
-            <td>Palo Alto</td>
-            <td>24 Jun, 2018</td>
-            <td>Agenda</td>
-        </tr>
-        <tr>
-            <td>Record two</td>
-            <td>Redwood City</td>
-            <td>14 April, 2019</td>
-            <td>Minutes</td>
-        </tr>
-        <tr>
-            <td>Record three</td>
-            <td>Palo Alto</td>
-            <td>3 October, 2017</td>
-            <td>Minutes</td>
-        </tr> -->
-    </table>
-
-    <script>
-        var perPage = 20;
-        
-        function genTables() {
-            var tables = document.querySelectorAll(".pagination");
-            for (var i = 0; i < tables.length; i++) {
-                perPage = parseInt(tables[i].dataset.pagecount);
-                createFooters(tables[i]);
-                createTableMeta(tables[i]);
-                loadTable(tables[i]);
-            }
-        }
-        
-        // based on current page, only show the elements in that range
-        function loadTable(table) {
-            var startIndex = 0;
-        
-            if (table.querySelector('th'))
-                startIndex = 1;
-        
-            console.log(startIndex);
-        
-            var start = (parseInt(table.dataset.currentpage) * table.dataset.pagecount) + startIndex;
-            var end = start + parseInt(table.dataset.pagecount);
-            var rows = table.rows;
-        
-            for (var x = startIndex; x < rows.length; x++) {
-                if (x < start || x >= end)
-                    rows[x].classList.add("inactive");
-                else
-                    rows[x].classList.remove("inactive");
-            }
-        }
-        
-        function createTableMeta(table) {
-            table.dataset.currentpage = "0";
-        }
-        
-        function createFooters(table) {
-            var hasHeader = false;
-            if (table.querySelector('th'))
-                hasHeader = true;
-        
-            var rows = table.rows.length;
-        
-            if (hasHeader)
-                rows = rows - 1;
-        
-            var numPages = rows / perPage;
-            var pager = document.createElement("div");
-        
-            // add an extra page, if we're 
-            if (numPages % 1 > 0)
-                numPages = Math.floor(numPages) + 1;
-        
-            pager.className = "pager";
-            for (var i = 0; i < numPages ; i++) {
-                var page = document.createElement("div");
-                page.innerHTML = i + 1;
-                page.className = "pager-item";
-                page.dataset.index = i;
-        
-                if (i == 0)
-                    page.classList.add("selected");
-        
-                page.addEventListener('click', function() {
-                    var parent = this.parentNode;
-                    var items = parent.querySelectorAll(".pager-item");
-                    for (var x = 0; x < items.length; x++) {
-                        items[x].classList.remove("selected");
-                    }
-                    this.classList.add('selected');
-                    table.dataset.currentpage = this.dataset.index;
-                    loadTable(table);
-                });
-                pager.appendChild(page);
-            }
-        
-            // insert page at the top of the table
-            table.parentNode.insertBefore(pager, table);
-        }
-        
-        window.addEventListener('load', function() {
-            genTables();
-        });
-    </script>    
 {% endblock %}
 

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectMultipleField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectMultipleField, RadioField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 from app.models import User
 from flask import request
@@ -64,3 +64,10 @@ class SearchForm(FlaskForm):
         if 'csrf_enabled' not in kwargs:
             kwargs['csrf_enabled'] = False
         super(SearchForm, self).__init__(*args, **kwargs)
+
+class SubscriptionForm(FlaskForm):
+    query = StringField('query', validators=[DataRequired()])
+    doctype = SelectMultipleField('document type', validators=[DataRequired()], choices=[('agenda', 'Agenda'), ('minutes', 'Minutes'), ('*', 'All')])
+    cities = SelectMultipleField('city', validators=[DataRequired()], choices=[('paloalto', 'Palo Alto'), ('redwoodcity', 'Redwood City'), ('*', 'All')])
+    frequency = RadioField('frequency', validators=[DataRequired()], choices=[('@hourly', 'Every hour'), ('@daily', 'Daily'), ('@weekly', 'Weekly')])
+    submit = SubmitField('submit')
