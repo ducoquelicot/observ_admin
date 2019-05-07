@@ -4,6 +4,7 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from hashlib import md5
 from time import time
+from datetime import datetime
 import jwt, os, csv
 
 class User(UserMixin, db.Model):
@@ -12,6 +13,7 @@ class User(UserMixin, db.Model):
     organization = db.Column(db.String(64), index=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
+    subscriptions = db.relationship('Subscription', backref='user', lazy='dynamic')
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -91,3 +93,15 @@ class Record(SearchableMixin, db.Model):
 
     def __repr__(self):
         return 'Record: {} City: {} Type: {} Date: {}'.format(self.name, self.city, self.doctype, self.date)
+
+class Subscription(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    query = db.Column(db.String(200), index=True)
+    city = db.Column(db.String(64), index=True)
+    doctype = db.Column(db.String(64), index=True)
+    frequency = db.Column(db.String(30), index=True)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __repr__ (self):
+        return 'Subscription: {} City: {} Type: {} Frequency: {}'.format(self.query, self.city, self.doctype, self.frequency)

@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for, request
 from app import observ, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, ResetPasswordRequestForm, ResetPasswordForm, SearchForm, SubscriptionForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Record
+from app.models import User, Record, Subscription
 from werkzeug.urls import url_parse
 from app.email import send_password_reset_email
 
@@ -26,13 +26,17 @@ def search():
     results, total = Record.search(expression, doctype, city)
     return render_template('search.html', title='search', results=results, total=total, search_form=search_form, subscribe_form=subscribe_form)
 
-# @observ.route('/subscribe', methods=['GET', 'POST'])
-# @login_required
-# def subscribe():
-#     search_form = SearchForm()
-#     subscribe_form = SubscriptionForm
-#     if subscribe_form.validate_on_submit():
-
+@observ.route('/subscribe', methods=['GET', 'POST'])
+@login_required
+def subscribe():
+    search_form = SearchForm()
+    subscribe_form = SubscriptionForm
+    if subscribe_form.validate_on_submit():
+        subscription = Subscription(query=subscribe_form.query.data, city=subscribe_form.cities.data, doctype=subscribe_form.doctype.data, frequency=subscribe_form.frequency.data, user=current_user)
+        db.session.add(subscription)
+        db.session.commit()
+        flash('Subscription successfully added! You will receive an email shortly.')
+        return render_template('search.html', title='search', results=results, total=total, search_form=search_form, subscribe_form=subscribe_form)
 
 @observ.route('/login', methods=['GET', 'POST'])
 def login():
