@@ -1,4 +1,4 @@
-{% extends 'base_login.html' %}
+{% extends 'base_search.html' %}
 
 {% block content %}
     <br />
@@ -22,7 +22,7 @@
 
     <br />
     <!-- <h3 class="header">subscrib<span class="blue">e</span></h3> -->
-    <button onclick="subscribe()">subscribe</button>
+    <button onclick="subscribe();prepopulate()">subscribe</button>
 
     <form id="subscribe" action="" method="post">
         <p class="fields">
