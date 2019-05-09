@@ -33,7 +33,7 @@ class User(UserMixin, db.Model):
             {'reset_password': self.id, 'exp': time() + expires_in},
             observ.config['SECRET_KEY'], algorithm='HS256').decode('utf-8'
         )
-    
+
     @staticmethod
     def verify_reset_password_token(token):
         try:
@@ -97,10 +97,10 @@ class Record(SearchableMixin, db.Model):
 class Subscription(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     query = db.Column(db.String(200), index=True)
-    city = db.Column(db.String(64), index=True)
+    city = db.Column(db.String(), index=True) # should be txt field
     doctype = db.Column(db.String(64), index=True)
-    frequency = db.Column(db.String(30), index=True)
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    # frequency = db.Column(db.String(30), index=True)
+    # timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__ (self):

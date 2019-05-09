@@ -56,6 +56,10 @@ h3.header {
     width: 300px;
 }
 
+h3#srch {
+    margin-top: -25px;
+}
+
 h3.fields {
     text-align: justify;
     font-family: 'Crimson Text', serif;
@@ -212,7 +216,7 @@ input[type=submit] {
 }
 
 .pagination {
-    width: 50%;
+    width: 65%;
     margin: 0 auto;
 }
 
@@ -258,8 +262,8 @@ button {
     color: deepskyblue;
     background-color: transparent;
     cursor: pointer;
-    width: 200px;
-    margin: 0 365px;
+    width: 90%;
+    margin: 0 auto;
 }
 
 @media (max-width: 900px) {

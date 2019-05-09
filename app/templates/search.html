@@ -1,9 +1,7 @@
 {% extends 'base_search.html' %}
 
 {% block content %}
-    <br />
-    <br />
-    <h3 class="header">search databas<span class="blue">e</span></h3>   
+    <h3 class="header" id="srch">search databas<span class="blue">e</span></h3>   
     <form id="search" action="{{ url_for('search') }}" method="get">
         <p class="fields">
             {{ search_form.q.label }}<br />
@@ -21,7 +19,22 @@
     </form>
 
     <br />
-    <!-- <h3 class="header">subscrib<span class="blue">e</span></h3> -->
+    
+    {% if results %}
+        <h3 class="header">result<span class="blue">s</span></h3>
+        <p class="forgot">Total results: {{ total }}</p>
+    
+    <br />
+    <table class="pagination" data-pagecount="5">
+    {% for result in results %}
+        <tr>
+            <td> - {{ result }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+
+    <br />
+
     <button onclick="subscribe();prepopulate()">subscribe</button>
 
     <form id="subscribe" action="" method="post">
@@ -44,20 +57,6 @@
         <p>{{ subscribe_form.submit }}</p>
         </p>
     </form>
-    
-    <br />
-    <br />
-    <br />
-    
-    {% if results %}
-        <h3 class="header">result<span class="blue">s</span></h3>
-        <p class="forgot">Total results: {{ total }}</p>
     {% endif %}
-    <br />
-    <table class="pagination" data-pagecount="5">
-    {% for result in results %}
-        <tr>
-            <td> - {{ result }}</td>
-        </tr>
-    {% endfor %}
+
 {% endblock %}
