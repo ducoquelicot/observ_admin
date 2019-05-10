@@ -32,7 +32,7 @@ def subscribe():
     search_form = SearchForm()
     subscribe_form = SubscriptionForm
     if subscribe_form.validate_on_submit():
-        subscription = Subscription(query=subscribe_form.query.data, city=subscribe_form.cities.data, doctype=subscribe_form.doctype.data, frequency=subscribe_form.frequency.data, user=current_user)
+        subscription = Subscription(query=subscribe_form.query.data, city=subscribe_form.cities.data, doctype=subscribe_form.doctype.data, user=current_user)
         db.session.add(subscription)
         db.session.commit()
         flash('Subscription successfully added! You will receive an email shortly.')

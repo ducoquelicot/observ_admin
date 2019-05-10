@@ -21,14 +21,6 @@ def query_index(expression, doctype, city):
     s = s[0:total]
     response = s.execute()
 
-    # output = "Total hits: {}\n\n".format(total)
-
-    # for hit in response.hits.hits:
-    #     result = "ID: {} \nCity: {} \nType: {}\nBody: {}\n\n".format(hit['_id'], hit['_source']['city'], hit['_source']['type'], hit['_source']['body'])
-    #     output += result
-
-    # return output
-
     ids = [hit['_id'] for hit in response.hits.hits]
 
     return ids, total
