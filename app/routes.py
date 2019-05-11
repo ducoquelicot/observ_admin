@@ -5,13 +5,16 @@ from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Record, Subscription
 from werkzeug.urls import url_parse
 from app.emails import send_password_reset_email
-from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 import time
+
+from app import scheduler
+from app.tasks import test_job
 
 @observ.route('/')
 @observ.route('/index')
 def index():
+    #TODO: THIS IS AN EXAMPLE. REMOVE THIS
+    job = scheduler.add_job('test_job', test_job)
     return render_template('index.html')
 
 @observ.route('/search', methods=['GET', 'POST'])
@@ -46,15 +49,9 @@ def subscribe():
     db.session.commit()
     flash('Subscription successfully added! You will receive an email shortly.')
 
-    jobstores = {
-    'default' : SQLAlchemyJobStore(url='sqlite:////home/fabienne/Desktop/Observ/observ.db', tablename='tasks')
-    }
-
     def test(expression, doctype, city):
         results, total = Record.search(expression, doctype, city)
         return results, total
-
-    scheduler = BackgroundScheduler(jobstores=jobstores)
 
     if subscribe_form.frequency.data == 'hourly':
         # import pdb;pdb.set_trace()
@@ -63,14 +60,7 @@ def subscribe():
         scheduler.add_job(test, 'interval', days=1, args=[expression, dt, c], id=str(current_user.id), name=current_user.username)
     elif subscribe_form.frequency.data == 'weekly':
         scheduler.add_job(test, 'interval', weeks=1, args=[expression, dt, c], id=str(current_user.id), name=current_user.username)
-    
-    # results, total = test(expression, dt,c)
-    # scheduler.start()
-    # try:
-    #     while True:
-    #         time.sleep(2)
-    # except (KeyboardInterrupt, SystemExit):
-    #     scheduler.shutdown()
+
     # return render_template('search.html', title='search', results=results, total=total, search_form=search_form, subscribe_form=subscribe_form)
     return render_template('search.html', title='search', search_form=search_form, subscribe_form=subscribe_form)
 
