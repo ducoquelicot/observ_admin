@@ -69,5 +69,5 @@ class SubscriptionForm(FlaskForm):
     query = StringField('query', validators=[DataRequired()])
     doctype = SelectMultipleField('document type', validators=[DataRequired()], choices=[('agenda', 'Agenda'), ('minutes', 'Minutes'), ('*', 'All')])
     cities = SelectMultipleField('city', validators=[DataRequired()], choices=[('paloalto', 'Palo Alto'), ('redwoodcity', 'Redwood City'), ('*', 'All')])
-    frequency = RadioField('frequency', validators=[DataRequired()], choices=[('@hourly', 'Every hour'), ('@daily', 'Daily'), ('@weekly', 'Weekly')])
+    frequency = RadioField('frequency', validators=[DataRequired()], choices=[('hourly', 'Every hour'), ('daily', 'Daily'), ('weekly', 'Weekly')])
     submit = SubmitField('submit')

@@ -4,7 +4,7 @@ from app.forms import LoginForm, RegistrationForm, EditProfileForm, ResetPasswor
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Record, Subscription
 from werkzeug.urls import url_parse
-from app.email import send_password_reset_email
+from app.emails import send_password_reset_email
 
 @observ.route('/')
 @observ.route('/index')
