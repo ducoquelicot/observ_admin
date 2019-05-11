@@ -37,7 +37,7 @@
 
     <button onclick="subscribe();prepopulate()">subscribe</button>
 
-    <form id="subscribe" action="{{ url_for('search') }}" method="post">
+    <form id="subscribe" action="{{ url_for('subscribe') }}" method="post">
         <p class="fields">
             {{ subscribe_form.query.label }}<br />
             {{ subscribe_form.query(size=30) }}<br /> 
