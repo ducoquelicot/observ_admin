@@ -5,38 +5,111 @@ from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Record, Subscription
 from werkzeug.urls import url_parse
 from app.emails import send_password_reset_email
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
+import time
 
 @observ.route('/')
 @observ.route('/index')
 def index():
     return render_template('index.html')
 
-@observ.route('/search')
+@observ.route('/search', methods=['GET', 'POST'])
 @login_required
 def search():
     search_form = SearchForm()
     subscribe_form = SubscriptionForm()
-    if not search_form.validate():
-        return render_template('search.html', title='search', search_form=search_form, subscribe_form=subscribe_form)
-    expression = search_form.q.data
-    docs = search_form.doc_type.data
-    cities = search_form.city.data
-    doctype = ','.join(docs)
-    city = ','.join(cities)
-    results, total = Record.search(expression, doctype, city)
+    if search_form.validate():
+        # return render_template('search.html', title='search', search_form=search_form, subscribe_form=subscribe_form)
+        expression = search_form.q.data
+        docs = search_form.doc_type.data
+        cities = search_form.city.data
+        doctype = ','.join(docs)
+        city = ','.join(cities)
+        results, total = Record.search(expression, doctype, city)
+
+    if subscribe_form.validate_on_submit():
+        subscription = Subscription(query=subscribe_form.query.data, city=subscribe_form.cities.data, doctype=subscribe_form.doctype.data, user=current_user)
+        db.session.add(subscription)
+        db.session.commit()
+        flash('Subscription successfully added! You will receive an email shortly.')
+
+        expression = subscribe_form.q.data
+        docs = subscribe_form.doc_type.data
+        cities = subscribe_form.city.data
+        doctype = ','.join(docs)
+        city = ','.join(cities)
+
+        jobstores = {
+        'default' : SQLAlchemyJobStore(url='sqlite:////home/fabienne/Desktop/Observ/observ.db', tablename='tasks')
+        }
+
+        def test(expression, doctype, city):
+            results, total = Record.search(expression, doctype, city)
+            return results, total
+
+        scheduler = BackgroundScheduler(jobstores=jobstores)
+
+        if subscribe_form.frequency.data == 'hourly':
+            scheduler.add_job(test, 'interval', minutes=5, args=[expression, doctype, city], id=current_user.id, name=current_user.username)
+        elif subscribe_form.frequency.data == 'daily':
+            scheduler.add_job(test, 'interval', days=1, args=[expression, doctype, city], id=current_user.id, name=current_user.username)
+        elif subscribe_form.frequency.data == 'weekly':
+            scheduler.add_job(test, 'interval', weeks=1, args=[expression, doctype, city], id=current_user.id, name=current_user.username)
+        
+        results, total = test(expression, doctype,city)
+        scheduler.start()
+        try:
+            while True:
+                time.sleep(2)
+        except (KeyboardInterrupt, SystemExit):
+            scheduler.shutdown()
+        return render_template('search.html', title='search', results=results, total=total, search_form=search_form, subscribe_form=subscribe_form)
     return render_template('search.html', title='search', results=results, total=total, search_form=search_form, subscribe_form=subscribe_form)
 
 @observ.route('/subscribe', methods=['GET', 'POST'])
 @login_required
 def subscribe():
     search_form = SearchForm()
-    subscribe_form = SubscriptionForm
+    subscribe_form = SubscriptionForm()
     if subscribe_form.validate_on_submit():
         subscription = Subscription(query=subscribe_form.query.data, city=subscribe_form.cities.data, doctype=subscribe_form.doctype.data, user=current_user)
         db.session.add(subscription)
         db.session.commit()
         flash('Subscription successfully added! You will receive an email shortly.')
+
+        expression = subscribe_form.q.data
+        docs = subscribe_form.doc_type.data
+        cities = subscribe_form.city.data
+        doctype = ','.join(docs)
+        city = ','.join(cities)
+
+        jobstores = {
+        'default' : SQLAlchemyJobStore(url='sqlite:////home/fabienne/Desktop/Observ/observ.db', tablename='tasks')
+        }
+
+        def test(expression, doctype, city):
+            results, total = Record.search(expression, doctype, city)
+            return results, total
+
+        scheduler = BackgroundScheduler(jobstores=jobstores)
+
+        if subscribe_form.frequency.data == 'hourly':
+            scheduler.add_job(test, 'interval', minutes=5, args=[expression, doctype, city], id=current_user.id, name=current_user.username)
+        elif subscribe_form.frequency.data == 'daily':
+            scheduler.add_job(test, 'interval', days=1, args=[expression, doctype, city], id=current_user.id, name=current_user.username)
+        elif subscribe_form.frequency.data == 'weekly':
+            scheduler.add_job(test, 'interval', weeks=1, args=[expression, doctype, city], id=current_user.id, name=current_user.username)
+        
+        results, total = test(expression, doctype,city)
+        scheduler.start()
+        try:
+            while True:
+                time.sleep(2)
+        except (KeyboardInterrupt, SystemExit):
+            scheduler.shutdown()
         return render_template('search.html', title='search', results=results, total=total, search_form=search_form, subscribe_form=subscribe_form)
+    return render_template('search.html', title='search', search_form=search_form, subscribe_form=subscribe_form)
 
 @observ.route('/login', methods=['GET', 'POST'])
 def login():

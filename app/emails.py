@@ -23,3 +23,13 @@ def send_password_reset_email(user):
                 html_body=render_template('email/reset_password.html',
                                             user=user, token=token)
             )
+
+def send_sub_mail(user):
+        send_email('[observ] Your subscription results',
+        sender=observ.config['ADMINS'][0],
+        recipients=[user.email],
+        text_body=render_template('email/sub_results.txt',
+                                user=user),
+        html_body=render_template('email/sub_results.html',
+                                user=user)
+        )

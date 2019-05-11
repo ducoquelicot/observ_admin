@@ -1,12 +1,11 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
-from app.models import Record
+from .models import Record
 import time
 
 jobstores = {
     'default' : SQLAlchemyJobStore(url='sqlite:////home/fabienne/Desktop/Observ/observ.db', tablename='tasks')
 }
-
 
 def test(expression, city, doctype):
     results, total = Record.search(expression, doctype, city)
