@@ -13,7 +13,7 @@ class Config(object):
     MAIL_USERNAME = os.environ.get('mail_username')
     MAIL_PASSWORD = os.environ.get('dev_pass')
     ADMINS = ['fmeijer@stanford.edu']
-    ELASTICSEARCH_URL = os.environ.get('elasticsearch_url')
+    ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
     SCHEDULER_API_ENABLED = True
     SCHEDULER_JOBSTORES = {'default' : SQLAlchemyJobStore(url = SQLALCHEMY_DATABASE_URI)}
     SCHEDULER_EXECUTORS = {'default' : {'type': 'threadpool', 'max_workers' : 20}}
