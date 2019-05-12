@@ -4,11 +4,12 @@ from app.forms import LoginForm, RegistrationForm, EditProfileForm, ResetPasswor
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Record, Subscription
 from werkzeug.urls import url_parse
-from app.emails import send_password_reset_email
+from app.emails import send_password_reset_email, send_sub_email
 import time
 from app import scheduler
-from app.tasks import test_job
+from app.tasks import sub_job
 from sqlalchemy import desc
+from app.search import query_index
 
 @observ.route('/')
 @observ.route('/index')
@@ -43,20 +44,24 @@ def subscribe():
     cities = subscribe_form.cities.data
     dt = ','.join(docs)
     c = ','.join(cities)
-    subscription = Subscription(q=subscribe_form.query.data, city=c, doctype=dt, user=current_user)
+    ids, total = query_index(expression, dt, c)
+
+    subscription = Subscription(q=subscribe_form.query.data, city=c, doctype=dt, frequency=subscribe_form.frequency.data, output=repr(ids), total=total, user=current_user)
     db.session.add(subscription)
     db.session.commit()
     flash('Subscription successfully added! You will receive an email shortly.')
-
+    
     sub = Subscription.query.order_by(desc(Subscription.id)).first()
+    send_sub_email(current_user, sub)
 
     if subscribe_form.frequency.data == 'hourly':
         # import pdb;pdb.set_trace()
-        scheduler.add_job(id=str(sub.id), func=test_job, args=(expression, dt, c), trigger='interval', hours=1, name=current_user.username)
+        #TODO CHANGE HOURY BACK INTO THE RIGHT SHAPE
+        scheduler.add_job(id=str(sub.id), func=sub_job, args=(expression, dt, c, sub.id), trigger='interval', minutes=5, name=current_user.username)
     elif subscribe_form.frequency.data == 'daily':
-        scheduler.add_job(id=str(sub.id), func=test_job, args=(expression, dt, c), trigger='interval', days=1, name=current_user.username)
+        scheduler.add_job(id=str(sub.id), func=sub_job, args=(expression, dt, c), trigger='interval', days=1, name=current_user.username)
     elif subscribe_form.frequency.data == 'weekly':
-        scheduler.add_job(id=str(sub.id), func=test_job, args=(expression, dt, c), trigger='interval', weeks=1, name=current_user.username)
+        scheduler.add_job(id=str(sub.id), func=sub_job, args=(expression, dt, c), trigger='interval', weeks=1, name=current_user.username)
 
     # return render_template('search.html', title='search', results=results, total=total, search_form=search_form, subscribe_form=subscribe_form)
     return render_template('search.html', title='search', search_form=search_form, subscribe_form=subscribe_form)

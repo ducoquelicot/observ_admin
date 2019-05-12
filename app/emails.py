@@ -24,12 +24,22 @@ def send_password_reset_email(user):
                                             user=user, token=token)
             )
 
-def send_sub_mail(user):
-        send_email('[observ] Your subscription results',
+def send_sub_email(user, subscription):
+        send_email('[observ] Your new subscription',
         sender=observ.config['ADMINS'][0],
         recipients=[user.email],
-        text_body=render_template('email/sub_results.txt',
-                                user=user),
-        html_body=render_template('email/sub_results.html',
-                                user=user)
+        text_body=render_template('email/send_sub.txt',
+                                user=user, subscription=subscription),
+        html_body=render_template('email/send_sub.html',
+                                user=user, subscription=subscription)
+        )
+
+def send_results_email(user, subscription, results):
+        send_email('[observ] New results for your subscription',
+        sender=observ.config['ADMINS'][0],
+        recipients=[user.email],
+        text_body=render_template('email/send_results.txt',
+                                user=user, subscription=subscription, results=results),
+        html_body=render_template('email/send_results.html',
+                                user=user, subscription=subscription, results=results)
         )
