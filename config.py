@@ -1,5 +1,5 @@
-from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 import os
+from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
@@ -15,14 +15,6 @@ class Config(object):
     ADMINS = ['fmeijer@stanford.edu']
     ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
     SCHEDULER_API_ENABLED = True
-    SCHEDULER_JOBSTORES = {'default' : SQLAlchemyJobStore(url = SQLALCHEMY_DATABASE_URI)}
-    SCHEDULER_EXECUTORS = {'default' : {'type': 'threadpool', 'max_workers' : 20}}
-    SCHEDULER_JOB_DEFAULTS = {'coalesce' : False, 'max_instances' : 3}
-    JOBS = [
-        {
-            'id' : 'test_job',
-            'func' : 'advanced:test_job',
-            'trigger:' : 'interval',
-            'seconds' : 3
-        }
-    ]
+    SCHEDULER_JOBSTORES = {'default' : SQLAlchemyJobStore(url=SQLALCHEMY_DATABASE_URI, tablename='tasks')}
+    # SCHEDULER_EXECUTORS = {'default' : {'type': 'threadpool', 'max_workers' : 20}}
+    # SCHEDULER_JOB_DEFAULTS = {'coalesce' : False, 'max_instances' : 3}

@@ -96,7 +96,7 @@ class Record(SearchableMixin, db.Model):
 
 class Subscription(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    query = db.Column(db.String(200), index=True)
+    q = db.Column(db.String(200), index=True)
     city = db.Column(db.String(), index=True) # should be txt field
     doctype = db.Column(db.String(64), index=True)
     # frequency = db.Column(db.String(30), index=True)
@@ -104,4 +104,4 @@ class Subscription(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__ (self):
-        return 'Subscription: {} City: {} Type: {} Frequency: {}'.format(self.query, self.city, self.doctype, self.frequency)
+        return 'Subscription: {} City: {} Type: {}'.format(self.q, self.city, self.doctype)

@@ -5,13 +5,15 @@ from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Record, Subscription
 from werkzeug.urls import url_parse
 from app.emails import send_password_reset_email
-from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 import time
+from app import scheduler
+from app.tasks import test_job
+from sqlalchemy import desc
 
 @observ.route('/')
 @observ.route('/index')
 def index():
+    # job = scheduler.add_job(id='test_job', func=test_job, trigger='interval', seconds=5)
     return render_template('index.html')
 
 @observ.route('/search', methods=['GET', 'POST'])
@@ -41,36 +43,21 @@ def subscribe():
     cities = subscribe_form.cities.data
     dt = ','.join(docs)
     c = ','.join(cities)
-    subscription = Subscription(query=subscribe_form.query.data, city=c, doctype=dt, user=current_user)
+    subscription = Subscription(q=subscribe_form.query.data, city=c, doctype=dt, user=current_user)
     db.session.add(subscription)
     db.session.commit()
     flash('Subscription successfully added! You will receive an email shortly.')
 
-    jobstores = {
-    'default' : SQLAlchemyJobStore(url='sqlite:////home/fabienne/Desktop/Observ/observ.db', tablename='tasks')
-    }
-
-    def test(expression, doctype, city):
-        results, total = Record.search(expression, doctype, city)
-        return results, total
-
-    scheduler = BackgroundScheduler(jobstores=jobstores)
+    sub = Subscription.query.order_by(desc(Subscription.id)).first()
 
     if subscribe_form.frequency.data == 'hourly':
         # import pdb;pdb.set_trace()
-        scheduler.add_job(test, 'interval', minutes=5, args=[expression, dt, c], id=str(current_user.id), name=current_user.username)
+        scheduler.add_job(id=str(sub.id), func=test_job, args=(expression, dt, c), trigger='interval', hours=5, name=current_user.username)
     elif subscribe_form.frequency.data == 'daily':
-        scheduler.add_job(test, 'interval', days=1, args=[expression, dt, c], id=str(current_user.id), name=current_user.username)
+        scheduler.add_job(id=str(sub.id), func=test_job, args=(expression, dt, c), trigger='interval', days=1, name=current_user.username)
     elif subscribe_form.frequency.data == 'weekly':
-        scheduler.add_job(test, 'interval', weeks=1, args=[expression, dt, c], id=str(current_user.id), name=current_user.username)
-    
-    # results, total = test(expression, dt,c)
-    # scheduler.start()
-    # try:
-    #     while True:
-    #         time.sleep(2)
-    # except (KeyboardInterrupt, SystemExit):
-    #     scheduler.shutdown()
+        scheduler.add_job(id=str(sub.id), func=test_job, args=(expression, dt, c), trigger='interval', weeks=1, name=current_user.username)
+
     # return render_template('search.html', title='search', results=results, total=total, search_form=search_form, subscribe_form=subscribe_form)
     return render_template('search.html', title='search', search_form=search_form, subscribe_form=subscribe_form)
 
