@@ -52,7 +52,7 @@ def subscribe():
 
     if subscribe_form.frequency.data == 'hourly':
         # import pdb;pdb.set_trace()
-        scheduler.add_job(id=str(sub.id), func=test_job, args=(expression, dt, c), trigger='interval', hours=5, name=current_user.username)
+        scheduler.add_job(id=str(sub.id), func=test_job, args=(expression, dt, c), trigger='interval', hours=1, name=current_user.username)
     elif subscribe_form.frequency.data == 'daily':
         scheduler.add_job(id=str(sub.id), func=test_job, args=(expression, dt, c), trigger='interval', days=1, name=current_user.username)
     elif subscribe_form.frequency.data == 'weekly':
