@@ -61,7 +61,7 @@ class SearchableMixin(object):
 
     @classmethod
     def add_database(cls):
-        with open(os.path.expanduser('~/Desktop/Python/Files/db_test.csv'), 'r') as database:
+        with open('pa_ag_2018.csv', 'r') as database:
             reader = csv.reader(database)
             database.readline()
             for row in reader:

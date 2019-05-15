@@ -60,8 +60,6 @@ def upgrade():
     op.create_index(op.f('ix_subscription_output'), 'subscription', ['output'], unique=False)
     op.create_index(op.f('ix_subscription_q'), 'subscription', ['q'], unique=False)
     op.create_index(op.f('ix_subscription_total'), 'subscription', ['total'], unique=False)
-    op.drop_index('ix_tasks_next_run_time', table_name='tasks')
-    op.drop_table('tasks')
     # ### end Alembic commands ###
 
 
