@@ -1,0 +1,17 @@
+Dear {{ user.username }},
+
+You are subscribed to the following query:
+
+- query: {{ subscription.q }}
+- doctype: {{ subscription.doctype }}
+- city: {{ subscription.city }}
+
+
+You will receive {{ subscription.frequency }} updates for this query.
+The first email will contain references to all documents found for your subscription.
+After that, you will only receive an email if there are new results.
+If you have any questions regarding your subscription, don't hesitate to contact us.
+
+Sincerely,
+
+observ team

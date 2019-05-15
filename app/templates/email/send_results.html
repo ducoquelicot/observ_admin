@@ -1,0 +1,22 @@
+<p>Dear {{ user.username }},</p>
+
+<p>Your query has returned new results! Below, we have listed your query <br />
+for your reference, as well as the new results we have found.</p>
+
+<ul>
+    <li>query: {{ subscription.q }}</li>
+    <li>doctype: {{ subscription.doctype }}</li>
+    <li>city: {{ subscription.city }}</li>
+</ul>
+
+<p>We have found the following new results:</p>
+
+{% for result in results %}
+    <ul>
+        <li>{{ result }}</li>
+    </ul>
+{% endfor %}
+
+<p>Sincerely,</p>
+
+<p>observ team</p>

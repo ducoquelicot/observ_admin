@@ -1,0 +1,18 @@
+<p>Dear {{ user.username }},</p>
+
+<p>You have successfully subscribed to the following query.</p>
+
+<ul>
+    <li>query: {{ subscription.q }}</li>
+    <li>doctype: {{ subscription.doctype }}</li>
+    <li>city: {{ subscription.city }}</li>
+</ul>
+
+<p>You will receive {{ subscription.frequency }} updates for this query.</p>
+<p>The first email will contain references to all documents found for your subscription.<br />
+    After that, you will only receive an email if there are new results.</p>
+<p>If you have any questions regarding your subscription, don't hesitate to contact us.</p>
+
+<p>Sincerely,</p>
+
+<p>observ team</p>

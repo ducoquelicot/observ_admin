@@ -15,6 +15,7 @@ login = LoginManager(observ)
 login.login_view = 'login'
 mail = Mail(observ)
 es = Elasticsearch([observ.config['ELASTICSEARCH_URL']])
-scheduler = APScheduler(observ)
+scheduler = APScheduler(app=observ)
+scheduler.start()
 
 from app import routes, models, errors
