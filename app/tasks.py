@@ -26,4 +26,5 @@ def sub_job(expression, doctype, city, subid):
 
                 sub.output = repr(ids)
                 sub.total = total
+                db.session.commit()
         # return results, total

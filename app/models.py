@@ -100,10 +100,15 @@ class Subscription(db.Model):
     city = db.Column(db.Text, index=True)
     doctype = db.Column(db.String(64), index=True)
     frequency = db.Column(db.String(30), index=True)
-    # timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     output = db.Column(db.Text, index=True)
     total = db.Column(db.Integer, index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__ (self):
         return 'Subscription: {} City: {} Type: {} Frequency: {}'.format(self.q, self.city, self.doctype, self.frequency)
+
+class Scraper(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), index=True)
+    links = db.Column(db.Text, index=True)
+    total = db.Column(db.Integer, index=True)
