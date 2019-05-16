@@ -39,7 +39,6 @@ In order to add these files to your database and index them in ES, do the follow
 - start a terminal with ```FLASK_APP=observ.py flask shell```
 - run below commands in the shell:
   ```python
-  from app.models import Record
   Record.add_database()
   Record.reindex()
   ```
