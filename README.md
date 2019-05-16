@@ -37,7 +37,11 @@ In the csv file 'pa_ag_2018' - which can be found in the root folder of this pro
 In order to add these files to your database and index them in ES, do the following:
 
 - start a terminal with ```FLASK_APP=observ.py flask shell```
-- run the command Record.add_database()
-- run the command Record.reindex()
+- run below commands in the shell:
+  ```python
+  from app.models import Record
+  Record.add_database()
+  Record.reindex()
+  ```
 
 Now, if you try to perform a search, it will actually work.
