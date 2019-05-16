@@ -1,5 +1,5 @@
 from app import db, login, observ
-from app.search import query_index, add_to_index
+from app.search import query_index, add_to_index, remove_from_index
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from hashlib import md5
@@ -60,6 +60,27 @@ class SearchableMixin(object):
             db.case(when, value=cls.id)), total
 
     @classmethod
+    def before_commit(cls, session):
+        session._changes = {
+            'add' : list(session.new),
+            'update' : list(session.dirty),
+            'delete' : list(session.deleted)
+        }
+
+    @classmethod
+    def after_commit(cls, session):
+        for obj in session._changes['add']:
+            if isinstance(obj, SearchableMixin):
+                add_to_index(obj)
+        for obj in session._changes['update']:
+            if isinstance(obj, SearchableMixin):
+                add_to_index(obj)
+        for obj in session._changes['delete']:
+            if isinstance(obj, SearchableMixin):
+                remove_from_index(obj)
+        session._changes = None
+
+    @classmethod
     def add_database(cls):
         with open('pa_ag_2018.csv', 'r') as database:
             reader = csv.reader(database)
@@ -79,6 +100,9 @@ class SearchableMixin(object):
     def reindex(cls):
         for obj in cls.query:
             add_to_index(obj)
+
+db.event.listen(db.session, 'before_commit', SearchableMixin.before_commit)
+db.event.listen(db.session, 'after_commit', SearchableMixin.after_commit)
 
 class Record(SearchableMixin, db.Model):
     __tablename__ = 'records'
@@ -112,3 +136,6 @@ class Scraper(db.Model):
     name = db.Column(db.String(200), index=True)
     links = db.Column(db.Text, index=True)
     total = db.Column(db.Integer, index=True)
+
+    def __repr__(self):
+        return 'Scraper name: {} Total links: {}'.format(self.name, self.total)

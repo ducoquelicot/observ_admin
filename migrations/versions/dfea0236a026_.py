@@ -60,6 +60,18 @@ def upgrade():
     op.create_index(op.f('ix_subscription_output'), 'subscription', ['output'], unique=False)
     op.create_index(op.f('ix_subscription_q'), 'subscription', ['q'], unique=False)
     op.create_index(op.f('ix_subscription_total'), 'subscription', ['total'], unique=False)
+
+    op.create_table('scraper',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('name', sa.String(length=200), nullable=True),
+    sa.Column('links', sa.Text(), nullable=True),
+    sa.Column('total', sa.Integer(), nullable=True),
+    sa.PrimaryKeyConstraint('id')
+    )
+
+    op.create_index(op.f('ix_scraper_name'), 'scraper', ['name'], unique=False)
+    op.create_index(op.f('ix_scraper_links'), 'scraper', ['links'], unique=False)
+    op.create_index(op.f('ix_scraper_total'), 'scraper', ['total'], unique=False)
     # ### end Alembic commands ###
 
 

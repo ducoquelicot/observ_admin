@@ -8,8 +8,7 @@ You are subscribed to the following query:
 
 
 You will receive {{ subscription.frequency }} updates for this query.
-The first email will contain references to all documents found for your subscription.
-After that, you will only receive an email if there are new results.
+Remember that you will only receive an email if there are new results.
 If you have any questions regarding your subscription, don't hesitate to contact us.
 
 Sincerely,

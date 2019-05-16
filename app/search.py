@@ -24,3 +24,6 @@ def query_index(expression, doctype, city):
     ids = [hit['_id'] for hit in response.hits.hits]
 
     return ids, total
+
+def remove_from_index(model):
+    es.delete(index="records", doc_type="_doc", id=model.id)

@@ -8,7 +8,7 @@ for pdf in pdf_list:
     lettertotext = 'pdftotext -layout -htmlmeta pdfs/pa_ag_2018/{}'.format(filename)
     os.system(lettertotext)
 
-html_list = glob.glob(os.path.expanduser('pdfs/pa_ag_2018/*.html'))
+html_list = glob.glob('pdfs/pa_ag_2018/*.html')
 
 doc_info = []
 for html in html_list:

@@ -1,7 +1,8 @@
 from bs4 import BeautifulSoup
-from app import db
-from app.models import Scraper
-import ast, csv, fnmatch, os, time, urllib.request, requests
+from app import db, scheduler
+from app.models import Scraper, Record
+from datetime import datetime
+import ast, csv, fnmatch, os, time, urllib.request, requests, glob
 
 def first_pa_ag_2019():
     site = 'https://www.cityofpaloalto.org/gov/depts/cou/council_agendas.asp'
@@ -11,18 +12,51 @@ def first_pa_ag_2019():
     
     links = []
     for row in relevant_soup:
-        if relevant_soup[row].getText() == 'Agenda and Packet':
-            if fnmatch.fnmatch(relevant_soup[row]['href'], '*://www.cityofpaloalto.org/*'):
-                link = relevant_soup[row]['href']
+        if 'Agenda and Packet' in row.getText():
+            if fnmatch.fnmatch(row['href'], '*://www.cityofpaloalto.org/*'):
+                link = row['href']
                 links.append(link)
             else:
-                links[row]['href'] = 'https://www.cityofpaloalto.org{}'.format(links[row]['href'])
-                link = relevant_soup[row]['href']
+                row['href'] = 'https://www.cityofpaloalto.org{}'.format(row['href'])
+                link = row['href']
                 links.append(link)
+    
+    retr_date = datetime.today().strftime('%d-%m-%Y')
+
+    for link in links:
+        name = link[-5:]
+        urllib.request.urlretrieve(link, 'pdfs/pa_ag_2019/{}_{}.pdf'.format(name, retr_date))
+        time.sleep(5)
+
+    pdf_list = glob.glob('pdfs/pa_ag_2019/*.pdf')
+
+    for pdf in pdf_list:
+        filename = os.path.basename(pdf)
+        if retr_date in filename:
+            lettertotext = 'pdftotext -layout -htmlmeta pdfs/pa_ag_2019/{}'.format(filename)
+            os.system(lettertotext)
+
+    html_list = glob.glob('pdfs/pa_ag_2019/*.html')
+
+    for html in html_list:
+        filename = os.path.basename(html)
+        if retr_date in filename:
+            with open('pdfs/pa_ag_2019/{}'.format(filename)) as f:
+                soup = BeautifulSoup(f, 'html.parser')
+                name = soup.title.string[:-22]
+                city = 'paloalto'
+                doctype = 'agenda'
+                date = soup.title.string[-20:-8]
+                body = soup.body.pre.string
+                r = Record(name=name, city=city, doctype=doctype, date=date, body=body)
+                db.session.add(r)
+                db.session.commit()
 
     scraper = Scraper(name='Palo Alto Agenda 2019', links=repr(links), total=len(links))
     db.session.add(scraper)
     db.session.commit()
+
+    scheduler.add_job(id='pa_ag_2019', func=pa_ag_2019, trigger='interval', days=1, name='Palo Alto Agenda 2019')
 
 def pa_ag_2019():
     site = 'https://www.cityofpaloalto.org/gov/depts/cou/council_agendas.asp'
@@ -32,46 +66,49 @@ def pa_ag_2019():
     
     links = []
     for row in relevant_soup:
-        if relevant_soup[row].getText() == 'Agenda and Packet':
-            if fnmatch.fnmatch(relevant_soup[row]['href'], '*://www.cityofpaloalto.org/*'):
-                link = relevant_soup[row]['href']
+        if row.getText() == 'Agenda and Packet':
+            if fnmatch.fnmatch(row['href'], '*://www.cityofpaloalto.org/*'):
+                link = row['href']
                 links.append(link)
             else:
-                links[row]['href'] = 'https://www.cityofpaloalto.org{}'.format(links[row]['href'])
-                link = relevant_soup[row]['href']
+                row['href'] = 'https://www.cityofpaloalto.org{}'.format(row['href'])
+                link = row['href']
                 links.append(link)
 
     scraper = Scraper.query.filter_by(name='Palo Alto Agenda 2019').first()
     stored_links = ast.literal_eval(scraper.links)
+    new_links = list(set(links) ^ set(stored_links))
+    retr_date = datetime.today().strftime('%d-%m-%Y')
 
+    for link in new_links:
+        name = link[-5:]
+        urllib.request.urlretrieve(link, 'pdfs/pa_ag_2019/{}_{}.pdf'.format(name, retr_date))
+        time.sleep(5)
 
-def scrape(html_link):
-    # get all links within parameters from provided html
-    agenda = requests.get(html_link)
-    soup = BeautifulSoup(agenda.text, 'lxml')
-    relevant_soup = soup.select('a')
-    return relevant_soup
+    pdf_list = glob.glob('pdfs/pa_ag_2019/*.pdf')
 
-def get_links(links, years):
-    # filter for Agenda and packet only, append to list and download pdf
-    agendas = []
-    for row in range(len(links)):
-        if links[row].getText()== 'Agenda and Packet':
-            if fnmatch.fnmatch(links[row]['href'], '*://www.cityofpaloalto.org/*'):
-                agendas.append([links[row]['href']])
-                time.sleep(2)
+    for pdf in pdf_list:
+        filename = os.path.basename(pdf)
+        if retr_date in filename:
+            lettertotext = 'pdftotext -layout -htmlmeta pdfs/pa_ag_2019/{}'.format(filename)
+            os.system(lettertotext)
 
-                urllib.request.urlretrieve(links[row]['href'], os.path.expanduser('~/Desktop/Python/PDF/pdfs_' +str(years) + '_' +str(row) + '.pdf'))
-                time.sleep(5)
-            else:
-                links[row]['href'] = 'https://www.cityofpaloalto.org' + links[row]['href']
-                agendas.append([links[row]['href']])
-                time.sleep(2)
-                urllib.request.urlretrieve(links[row]['href'], os.path.expanduser('~/Desktop/Python/PDF/pdfs_' +str(years) + '_' +str(row) + '.pdf'))
-                time.sleep(5)
+    html_list = glob.glob('pdfs/pa_ag_2019/*.html')
 
-def main():
-    pa_agenda = {2019: 'https://www.cityofpaloalto.org/gov/depts/cou/council_agendas.asp'}
-    for year in pa_agenda.keys():
-        output = scrape(pa_agenda[year])
-        get_links(output, year)
+    for html in html_list:
+        filename = os.path.basename(html)
+        if retr_date in filename:
+            with open('pdfs/pa_ag_2019/{}'.format(filename)) as f:
+                soup = BeautifulSoup(f, 'html.parser')
+                name = soup.title.string[:-22]
+                city = 'paloalto'
+                doctype = 'agenda'
+                date = soup.title.string[-20:-8]
+                body = soup.body.pre.string
+                r = Record(name=name, city=city, doctype=doctype, date=date, body=body)
+                db.session.add(r)
+                db.session.commit()
+
+    scraper.links = repr(links)
+    scraper.total = len(links)
+    db.session.commit()
