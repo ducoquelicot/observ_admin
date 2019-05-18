@@ -59,9 +59,9 @@ def subscribe():
         #TODO CHANGE HOURY BACK INTO THE RIGHT SHAPE
         scheduler.add_job(id=str(sub.id), func=sub_job, args=(expression, dt, c, sub.id), trigger='interval', seconds=5, name=current_user.username)
     elif subscribe_form.frequency.data == 'daily':
-        scheduler.add_job(id=str(sub.id), func=sub_job, args=(expression, dt, c), trigger='interval', days=1, name=current_user.username)
+        scheduler.add_job(id=str(sub.id), func=sub_job, args=(expression, dt, c, sub.id), trigger='interval', days=1, name=current_user.username)
     elif subscribe_form.frequency.data == 'weekly':
-        scheduler.add_job(id=str(sub.id), func=sub_job, args=(expression, dt, c), trigger='interval', weeks=1, name=current_user.username)
+        scheduler.add_job(id=str(sub.id), func=sub_job, args=(expression, dt, c, sub.id), trigger='interval', weeks=1, name=current_user.username)
 
     # return render_template('search.html', title='search', results=results, total=total, search_form=search_form, subscribe_form=subscribe_form)
     return render_template('search.html', title='search', search_form=search_form, subscribe_form=subscribe_form)

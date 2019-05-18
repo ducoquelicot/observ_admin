@@ -78,37 +78,38 @@ def pa_ag_2019():
     scraper = Scraper.query.filter_by(name='Palo Alto Agenda 2019').first()
     stored_links = ast.literal_eval(scraper.links)
     new_links = list(set(links) ^ set(stored_links))
-    retr_date = datetime.today().strftime('%d-%m-%Y')
 
-    for link in new_links:
-        name = link[-5:]
-        urllib.request.urlretrieve(link, 'pdfs/pa_ag_2019/{}_{}.pdf'.format(name, retr_date))
-        time.sleep(5)
+    if len(new_links) > 0:
+        retr_date = datetime.today().strftime('%d-%m-%Y')
+        for link in new_links:
+            name = link[-5:]
+            urllib.request.urlretrieve(link, 'pdfs/pa_ag_2019/{}_{}.pdf'.format(name, retr_date))
+            time.sleep(5)
 
-    pdf_list = glob.glob('pdfs/pa_ag_2019/*.pdf')
+        pdf_list = glob.glob('pdfs/pa_ag_2019/*.pdf')
 
-    for pdf in pdf_list:
-        filename = os.path.basename(pdf)
-        if retr_date in filename:
-            lettertotext = 'pdftotext -layout -htmlmeta pdfs/pa_ag_2019/{}'.format(filename)
-            os.system(lettertotext)
+        for pdf in pdf_list:
+            filename = os.path.basename(pdf)
+            if retr_date in filename:
+                lettertotext = 'pdftotext -layout -htmlmeta pdfs/pa_ag_2019/{}'.format(filename)
+                os.system(lettertotext)
 
-    html_list = glob.glob('pdfs/pa_ag_2019/*.html')
+        html_list = glob.glob('pdfs/pa_ag_2019/*.html')
 
-    for html in html_list:
-        filename = os.path.basename(html)
-        if retr_date in filename:
-            with open('pdfs/pa_ag_2019/{}'.format(filename)) as f:
-                soup = BeautifulSoup(f, 'html.parser')
-                name = soup.title.string[:-22]
-                city = 'paloalto'
-                doctype = 'agenda'
-                date = soup.title.string[-20:-8]
-                body = soup.body.pre.string
-                r = Record(name=name, city=city, doctype=doctype, date=date, body=body)
-                db.session.add(r)
-                db.session.commit()
+        for html in html_list:
+            filename = os.path.basename(html)
+            if retr_date in filename:
+                with open('pdfs/pa_ag_2019/{}'.format(filename)) as f:
+                    soup = BeautifulSoup(f, 'html.parser')
+                    name = soup.title.string[:-22]
+                    city = 'paloalto'
+                    doctype = 'agenda'
+                    date = soup.title.string[-20:-8]
+                    body = soup.body.pre.string
+                    r = Record(name=name, city=city, doctype=doctype, date=date, body=body)
+                    db.session.add(r)
+                    db.session.commit()
 
-    scraper.links = repr(links)
-    scraper.total = len(links)
-    db.session.commit()
+        scraper.links = repr(links)
+        scraper.total = len(links)
+        db.session.commit()
