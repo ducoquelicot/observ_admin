@@ -52,11 +52,12 @@ def subscribe():
     flash('Subscription successfully added! You will receive an email shortly.')
     
     sub = Subscription.query.order_by(desc(Subscription.id)).first()
+    # scheduler.add_job(send_sub_email, id='sub', args=(current_user, sub))
     send_sub_email(current_user, sub)
 
     if subscribe_form.frequency.data == 'hourly':
         # import pdb;pdb.set_trace()
-        #TODO CHANGE HOURY BACK INTO THE RIGHT SHAPE
+        # TODO CHANGE HOURY BACK INTO THE RIGHT SHAPE
         scheduler.add_job(id=str(sub.id), func=sub_job, args=(expression, dt, c, sub.id), trigger='interval', seconds=5, name=current_user.username)
     elif subscribe_form.frequency.data == 'daily':
         scheduler.add_job(id=str(sub.id), func=sub_job, args=(expression, dt, c, sub.id), trigger='interval', days=1, name=current_user.username)
@@ -131,6 +132,7 @@ def reset_password_request():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user:
+            # scheduler.add_job(id='pass_reset', func=send_password_reset_email, args=(user,))
             send_password_reset_email(user)
         flash('Check your email for the instructions to reset your password.')
         return redirect(url_for('login'))
