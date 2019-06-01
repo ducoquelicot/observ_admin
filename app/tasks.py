@@ -4,6 +4,8 @@ from app.models import User, Record, Subscription
 import ast
 from app.search import query_index
 from app.emails import send_results_email
+import time
+from rq import get_current_job
 
 def sub_job(expression, doctype, city, subid):
         # results, total = Record.search(expression, doctype, city)

@@ -16,5 +16,6 @@ class Config(object):
     ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
     SCHEDULER_API_ENABLED = True
     SCHEDULER_JOBSTORES = {'default' : SQLAlchemyJobStore(url=SQLALCHEMY_DATABASE_URI, tablename='tasks')}
+    REDIS_URL = os.environ.get('REDIS_URL') or 'redis://'
     # SCHEDULER_EXECUTORS = {'default' : {'type': 'threadpool', 'max_workers' : 20}}
     # SCHEDULER_JOB_DEFAULTS = {'coalesce' : False, 'max_instances' : 3}

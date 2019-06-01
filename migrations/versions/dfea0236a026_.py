@@ -72,6 +72,16 @@ def upgrade():
     op.create_index(op.f('ix_scraper_name'), 'scraper', ['name'], unique=False)
     op.create_index(op.f('ix_scraper_links'), 'scraper', ['links'], unique=False)
     op.create_index(op.f('ix_scraper_total'), 'scraper', ['total'], unique=False)
+
+    op.create_table('task',
+    sa.Column('id', sa.String(length=36), nullable=False),
+    sa.Column('name', sa.String(length=128), nullable=True),
+    sa.Column('description', sa.String(length=128), nullable=True),
+    sa.Column('user_id', sa.Integer(), nullable=True),
+    sa.Column('complete', sa.Boolean(), nullable=True),
+    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
     # ### end Alembic commands ###
 
 
