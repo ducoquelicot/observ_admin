@@ -18,8 +18,8 @@ login = LoginManager(observ)
 login.login_view = 'login'
 mail = Mail(observ)
 es = Elasticsearch([observ.config['ELASTICSEARCH_URL']])
-redis = Redis.from_url('redis://')
-task_queue = rq.Queue('observ-tasks', connection=redis)
+# redis = Redis.from_url('redis://')
+task_queue = rq.Queue('observ-tasks', connection=Redis())
 scheduler = Scheduler(queue=task_queue)
 
 from app import routes, models, errors
