@@ -57,8 +57,9 @@ def subscribe():
 
     if subscribe_form.frequency.data == 'hourly':
         # import pdb;pdb.set_trace()
-        # TODO CHANGE HOURY BACK INTO THE RIGHT SHAPE
-        scheduler.add_job(id=str(sub.id), func=sub_job, args=(expression, dt, c, sub.id), trigger='interval', seconds=5, name=current_user.username)
+        # TODO CHANGE HOURLY BACK INTO THE RIGHT SHAPE
+        # scheduler.add_job(id=str(sub.id), func=sub_job, args=(expression, dt, c, sub.id), trigger='interval', seconds=5, name=current_user.username)
+        scheduler.cron("*/1 * * * *", func=sub_job, args=[expression, dt, c, sub.id], queue_name='observ-tasks')
     elif subscribe_form.frequency.data == 'daily':
         scheduler.add_job(id=str(sub.id), func=sub_job, args=(expression, dt, c, sub.id), trigger='interval', days=1, name=current_user.username)
     elif subscribe_form.frequency.data == 'weekly':

@@ -8,6 +8,7 @@ from elasticsearch import Elasticsearch
 from flask_apscheduler import APScheduler
 from redis import Redis 
 import rq
+from rq_scheduler import Scheduler
 
 observ = Flask(__name__)
 observ.config.from_object(Config)
@@ -17,9 +18,8 @@ login = LoginManager(observ)
 login.login_view = 'login'
 mail = Mail(observ)
 es = Elasticsearch([observ.config['ELASTICSEARCH_URL']])
-scheduler = APScheduler(app=observ)
-scheduler.start()
-redis = Redis.from_url([observ.config['REDIS_URL']])
+redis = Redis.from_url('redis://')
 task_queue = rq.Queue('observ-tasks', connection=redis)
+scheduler = Scheduler(queue=task_queue)
 
 from app import routes, models, errors
