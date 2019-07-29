@@ -6,7 +6,7 @@ Track the latest topics of interest from government sources.
 
 ### Pre-requisites
 
-* Python >= 3.6
+* Python >= 3.7
 * [Elasticsearch 7.x](https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html)
 
 ### Install
